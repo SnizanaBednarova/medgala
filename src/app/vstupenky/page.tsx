@@ -177,37 +177,36 @@ function SvgPlan({
 		}
 	}, [svgSrc])
 
-	useEffect(() => {
-		const host = hostRef.current
-		if (!host) return
-		if (!svgText) return
-		host.innerHTML = svgText
+ useEffect(() => {
+        const host = hostRef.current
+        if (!host) return
+        if (!svgText) return
+        host.innerHTML = svgText
 
-		const svg = host.querySelector('svg')
-		if (!svg) return
+        const svg = host.querySelector('svg')
+        if (!svg) return
 
-		const cleanups: Array<() => void> = []
+        const cleanups: Array<() => void> = []
 
-		for (const t of tables) {
-			const el = svg.querySelector<HTMLElement>(`#${CSS.escape(t.id)}`)
-			if (!el) continue
+        for (const t of tables) {
+            const el = svg.querySelector<HTMLElement>(`#${CSS.escape(t.id)}`)
+            if (!el) continue
 
-			el.setAttribute('role', 'button')
-			el.classList.add('focus:outline-none')
-			el.setAttribute('tabindex', '0')
+            el.setAttribute('role', 'button')
+            el.classList.add('focus:outline-none')
+            el.setAttribute('tabindex', '0')
 
-			const click = (e: Event) => {
-				e.preventDefault()
-				if (ticket === 'economy') return
-				if (activeZone && t.zone !== activeZone) return
-				onPickTable(t.id)
-			}
-			const keydown = (e: KeyboardEvent) => {
-				if (e.key === 'Enter' || e.key === ' ') {
-					e.preventDefault()
-					click(e)
-				}
-			}
+            const click = (e: Event) => {
+                e.preventDefault()
+                if (activeZone && t.zone !== activeZone) return
+                onPickTable(t.id)
+            }
+            const keydown = (e: KeyboardEvent) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    click(e)
+                }
+            }
 
 			el.addEventListener('click', click)
 			el.addEventListener('keydown', keydown)
@@ -218,33 +217,33 @@ function SvgPlan({
 		}
 
 		return () => cleanups.forEach((fn) => fn())
-	}, [svgText, tables, ticket, activeZone, onPickTable])
+ }, [svgText, tables, ticket, activeZone, onPickTable])
 
-	useEffect(() => {
-		const host = hostRef.current
-		if (!host) return
-		const svg = host.querySelector('svg')
-		if (!svg) return
+ useEffect(() => {
+        const host = hostRef.current
+        if (!host) return
+        const svg = host.querySelector('svg')
+        if (!svg) return
 
-		for (const t of tables) {
-			const el = svg.querySelector<HTMLElement>(`#${CSS.escape(t.id)}`)
-			if (!el) continue
+        for (const t of tables) {
+            const el = svg.querySelector<HTMLElement>(`#${CSS.escape(t.id)}`)
+            if (!el) continue
 
-			const st = getState(t.id)
-			const isDimmed = ticket !== 'economy' && activeZone ? t.zone !== activeZone : false
+            const st = getState(t.id)
+            const isDimmed = activeZone ? t.zone !== activeZone : false
 
-			el.classList.toggle('seat-dimmed', isDimmed)
-			el.classList.toggle('seat-full', st.isFull)
+            el.classList.toggle('seat-dimmed', isDimmed)
+            el.classList.toggle('seat-full', st.isFull)
 
-			const isClickable = ticket !== 'economy' && !isDimmed && !st.isFull
-			el.style.cursor = isClickable ? 'pointer' : 'not-allowed'
-			el.style.pointerEvents = isClickable ? 'auto' : 'none'
-			el.setAttribute('tabindex', isClickable ? '0' : '-1')
-			el.setAttribute('aria-disabled', isClickable ? 'false' : 'true')
+            const isClickable = (!activeZone || !isDimmed) && !st.isFull
+            el.style.cursor = isClickable ? 'pointer' : 'not-allowed'
+            el.style.pointerEvents = isClickable ? 'auto' : 'none'
+            el.setAttribute('tabindex', isClickable ? '0' : '-1')
+            el.setAttribute('aria-disabled', isClickable ? 'false' : 'true')
 
-			el.setAttribute('title', `Obsazeno ${st.occ}/${st.cap}`)
-		}
-	}, [svgText, tables, ticket, activeZone, activeTable, selected, getState])
+            el.setAttribute('title', `Obsazeno ${st.occ}/${st.cap}`)
+        }
+    }, [svgText, tables, ticket, activeZone, activeTable, selected, getState])
 
 	return (
 		<div className="relative">
@@ -256,23 +255,19 @@ function SvgPlan({
 
 			<div ref={hostRef} className="w-full h-auto" />
 
-			<div className="absolute bottom-4 right-4 rounded-2xl bg-blue-950/70 border border-white/15 backdrop-blur px-4 py-3 text-sm">
-				<div className="text-white/70">
-					{ticket === 'economy'
-						? 'ECONOMY: bez stolu'
-						: 'Klikni na stůl → vlevo nastavíš počet míst'}
-				</div>
-			</div>
-		</div>
-	)
+            <div className="absolute bottom-4 right-4 rounded-2xl bg-blue-950/70 border border-white/15 backdrop-blur px-4 py-3 text-sm">
+                <div className="text-white/70">Klikni na stůl → vlevo nastavíš počet míst</div>
+            </div>
+        </div>
+    )
 }
 
 export default function VstupenkyPage() {
 	const [hall, setHall] = useState<Hall>('velky')
 	const map = hall === 'velky' ? velkySal : malySal
 
-	const [ticket, setTicket] = useState<Ticket>('standard')
-	const [activeZone, setActiveZone] = useState(TICKETS[ticket].zone)
+ const [ticket, setTicket] = useState<Ticket>('standard')
+ const [activeZone, setActiveZone] = useState(TICKETS[ticket].zone)
 
 	const [occupied] = useState<Record<string, number>>({
 		F15: 6,
@@ -285,33 +280,31 @@ export default function VstupenkyPage() {
 
 	const [selected, setSelected] = useState<Record<string, number>>({})
 	const [activeTable, setActiveTable] = useState<string | null>(null)
-	const [economyCount, setEconomyCount] = useState(1)
+	const [economyCount, setEconomyCount] = useState(0)
+	const [economyVisible, setEconomyVisible] = useState(false)
 
 	const tablesById = useMemo(() => new Map(map.tables.map((t) => [t.id, t])), [map.tables])
 
-	useEffect(() => {
-		const zone = TICKETS[ticket].zone
-		setActiveZone(zone)
+ useEffect(() => {
+        const zone = TICKETS[ticket].zone
+        setActiveZone(zone)
 
-		// If switching to a mode without a zone (economy), reset active table.
-		if (!zone) {
-			setActiveTable(null)
-			return
-		}
+        // Only adjust activeTable when switching to a concrete zone.
+        if (!zone) return
 
-		// Preserve activeTable on seated zone switch when it already has some selection,
-		// so the user can still adjust quantity or cancel that table even if it is not
-		// in the currently clickable zone. If it has no selection and is outside of
-		// the active zone, clear it.
-		setActiveTable((prev) => {
-			if (!prev) return null
-			const tbl = tablesById.get(prev)
-			if (!tbl) return null
-			if (tbl.zone === zone) return prev
-			const hasSelection = (selected[prev] ?? 0) > 0
-			return hasSelection ? prev : null
-		})
-	}, [ticket, tablesById, selected])
+        // Preserve activeTable on seated zone switch when it already has some selection,
+        // so the user can still adjust quantity or cancel that table even if it is not
+        // in the currently clickable zone. If it has no selection and is outside of
+        // the active zone, clear it.
+        setActiveTable((prev) => {
+            if (!prev) return null
+            const tbl = tablesById.get(prev)
+            if (!tbl) return null
+            if (tbl.zone === zone) return prev
+            const hasSelection = (selected[prev] ?? 0) > 0
+            return hasSelection ? prev : null
+        })
+    }, [ticket, tablesById, selected])
 
 	const [firstName, setFirstName] = useState('')
 	const [lastName, setLastName] = useState('')
@@ -348,47 +341,51 @@ export default function VstupenkyPage() {
 	}
 
  const total = useMemo(() => {
-		// Economy is a separate flow priced by quantity when active
-		if (ticket === 'economy') return TICKETS.economy.price * economyCount
+        // Sum both seated selections and Economy quantity regardless of current ticket mode
+        const zonePrice: Record<Zone, number> = {
+            standard: TICKETS.standard.price,
+            vip_silver: TICKETS.vip_silver.price,
+            vip_gold: TICKETS.vip_gold.price,
+        }
+        let seatedSum = 0
+        for (const [id, count] of Object.entries(selected)) {
+            const z = tablesById.get(id)?.zone
+            if (!z) continue
+            seatedSum += (zonePrice[z] ?? 0) * count
+        }
+        const economySum = TICKETS.economy.price * economyCount
+        return seatedSum + economySum
+ }, [selected, economyCount, tablesById])
 
-		// For seated tickets, sum per-table counts using each table's zone price.
-		const zonePrice: Record<Zone, number> = {
-			standard: TICKETS.standard.price,
-			vip_silver: TICKETS.vip_silver.price,
-			vip_gold: TICKETS.vip_gold.price,
-		}
-		let sum = 0
-		for (const [id, count] of Object.entries(selected)) {
-			const z = tablesById.get(id)?.zone
-			if (!z) continue
-			sum += (zonePrice[z] ?? 0) * count
-		}
-		return sum
- }, [selected, ticket, economyCount, tablesById])
-
- // Keep a convenient list of tables to show in the sidebar: active first, then other selected ones
+ // Keep a convenient list of tables to show in the sidebar: only tables with selected seats (> 0)
  const selectedTableIds = useMemo(
    () => Object.keys(selected).filter((id) => (selected[id] ?? 0) > 0),
    [selected]
  )
- const sidebarTableList = useMemo(() => {
-   const seen = new Set<string>()
-   const list: string[] = []
-   if (activeTable) {
-     list.push(activeTable)
-     seen.add(activeTable)
-   }
-   for (const id of selectedTableIds) {
-     if (!seen.has(id)) list.push(id)
-   }
-   return list
- }, [activeTable, selectedTableIds])
+ const sidebarTableList = selectedTableIds
 
 	const canCheckout = agreeTerms && agreeGdpr && email.trim().length > 3
 
-	const pickTable = (id: string) => {
-		setActiveTable(id)
-	}
+ const pickTable = (id: string) => {
+        // Always activate clicked table
+        setActiveTable(id)
+
+        // On first click, initialize with 1 ticket (only if currently 0 and capacity allows)
+        // This makes the table appear in the sidebar immediately.
+        setSelected((prev) => {
+            const current = prev[id] ?? 0
+            if (current > 0) return prev
+
+            const t = tablesById.get(id)
+            if (!t || t.capacity <= 0) return prev
+
+            const occ = occupied[id] ?? 0
+            const free = clamp(t.capacity - occ - current, 0, t.capacity)
+            if (free <= 0) return prev
+
+            return { ...prev, [id]: 1 }
+        })
+    }
 
 	return (
 		<main className="min-h-screen bg-gradient-to-br bg-primary-300 text-white">
@@ -407,34 +404,33 @@ export default function VstupenkyPage() {
 							<h2 className="font-semibold tracking-widest text-sm text-white/85">1. VÝBĚR LÍSTKU</h2>
 						</div>
 
-						<div className="mt-6 space-y-3">
-							{(Object.keys(TICKETS) as Ticket[]).map((k) => (
-								<button
-									key={k}
-									onClick={() => {
-										setTicket(k)
-										setActiveZone(TICKETS[k].zone)
-										if (k === 'economy') {
-											setSelected({})
-											setActiveTable(null)
-											setEconomyCount(1)
-										}
-									}}
-									className={[
-										'w-full text-left rounded-2xl p-4 border transition',
-										ticket === k ? 'border-cyan-300 bg-white/10' : 'border-white/10 bg-white/5 hover:bg-white/10',
-									].join(' ')}
-								>
-									<div className="flex items-center justify-between gap-4">
-										<div>
-											<div className="font-semibold">{TICKETS[k].name}</div>
-											<div className="text-xs text-white/60">{TICKETS[k].hint}</div>
-										</div>
-										<div className="font-semibold tabular-nums">{TICKETS[k].price} Kč</div>
-									</div>
-								</button>
-							))}
-						</div>
+      <div className="mt-6 space-y-3">
+                            {(Object.keys(TICKETS) as Ticket[]).map((k) => (
+                                <button
+                                    key={k}
+                                    onClick={() => {
+                                        setTicket(k)
+                                        setActiveZone(TICKETS[k].zone)
+                                        if (k === 'economy') {
+                                            setEconomyVisible(true)
+                                            setEconomyCount((c) => (c === 0 ? 1 : c))
+                                        }
+                                    }}
+                                    className={[
+                                        'w-full text-left rounded-2xl p-4 border transition',
+                                        ticket === k ? 'border-cyan-300 bg-white/10' : 'border-white/10 bg-white/5 hover:bg-white/10',
+                                    ].join(' ')}
+                                >
+                                    <div className="flex items-center justify-between gap-4">
+                                        <div>
+                                            <div className="font-semibold">{TICKETS[k].name}</div>
+                                            <div className="text-xs text-white/60">{TICKETS[k].hint}</div>
+                                        </div>
+                                        <div className="font-semibold tabular-nums">{TICKETS[k].price} Kč</div>
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
 
 							<div className="mt-6 rounded-2xl bg-white/5 border border-white/10 p-4">
 								<div className="text-xs text-white/60 tracking-widest">CENA</div>
@@ -450,37 +446,24 @@ export default function VstupenkyPage() {
                 <button
                   className="text-xs text-white/60 hover:text-white"
                   onClick={() => {
-                    // Economy: cancel means clear quantity to 0
-                    if (ticket === 'economy') {
-                      setEconomyCount(0)
-                      setActiveTable(null)
-                      return
-                    }
-
-                    if (activeTable) {
-                      setSelected((prev) => {
-                        const next = { ...prev }
-                        delete next[activeTable]
-                        return next
-                      })
-                      setActiveTable(null)
-                      return
-                    }
-
-                    // If no activeTable but there are some selections, clear all
-                    setSelected((prev) => (Object.keys(prev).length ? {} : prev))
+                    // Clear all selections (both Economy and seated)
+                    setEconomyCount(0)
+                    setEconomyVisible(false)
+                    setSelected({})
+                    setActiveTable(null)
                   }}
                 >
                   zrušit
                 </button>
                 </div>
 
-              {ticket === 'economy' ? (
-                <div className="mt-3">
-                  <div className="flex items-center gap-2">
+                {/* Economy quantity appears after selecting Economy and hides at 0 */}
+                {(economyVisible || economyCount > 0) && (
+                <div className="mt-3 rounded-xl border p-3 transition border-white/10 bg-white/5 hover:bg-white/10">
+                  <div className="flex items-center gap-2 ">
                     <button
                       className="px-3 py-2 rounded-xl bg-white/10 border border-white/10 hover:bg-white/15 disabled:opacity-40"
-                      onClick={() => setEconomyCount((c) => clamp(c - 1, 0, 100))}
+                      onClick={() => setEconomyCount((c) => { const next = clamp(c - 1, 0, 100); if (next === 0) setEconomyVisible(false); return next; })}
                       disabled={economyCount <= 0}
                     >
                       −
@@ -498,19 +481,20 @@ export default function VstupenkyPage() {
                   </div>
                   <div className="text-xs text-white/50 mt-2">Zvol počet vstupenek ke stání</div>
                 </div>
-              ) : sidebarTableList.length > 0 ? (
-                <div className="mt-2 space-y-3">
+                )}
+
+                {sidebarTableList.length > 0 ? (
+                <div className="mt-4 space-y-3">
                   {sidebarTableList.map((id) => {
                     const t = tablesById.get(id)
                     if (!t) return null
                     const st = getState(id)
-                    const active = id === activeTable
                     return (
                       <div
                         key={id}
                         className={[
                           'rounded-xl border p-3 transition',
-                          active ? 'border-cyan-300 bg-white/10' : 'border-white/10 bg-white/5 hover:bg-white/10',
+                          'border-white/10 bg-white/5 hover:bg-white/10',
                         ].join(' ')}
                         onClick={() => setActiveTable(id)}
                       >
@@ -545,11 +529,11 @@ export default function VstupenkyPage() {
                     )
                   })}
                 </div>
-              ) : (
-                <div className="mt-3 text-white/70 text-sm">
+                ) : (
+                <div className="mt-4 text-white/70 text-sm">
                   Klikni na stůl v plánku a vyber počet míst.
                 </div>
-              )}
+                )}
               </div>
 
 						<div className="mt-8">
@@ -629,16 +613,12 @@ export default function VstupenkyPage() {
 
 						{/* PLAN */}
 						<div className="rounded-3xl bg-white/5 border border-white/15 overflow-hidden">
-							<div className="px-6 py-4 border-b border-white/10">
-								<h2 className="font-semibold tracking-widest text-sm">
-									3. VÝBĚR SEDADLA — {map.title.toUpperCase()}
-								</h2>
-								<p className="text-white/60 text-sm mt-1">
-									{ticket === 'economy'
-										? 'ECONOMY: bez stolu – plán je jen informativní.'
-										: 'Klikni na stůl.'}
-								</p>
-							</div>
+       <div className="px-6 py-4 border-b border-white/10">
+                                <h2 className="font-semibold tracking-widest text-sm">
+                                    3. VÝBĚR SEDADLA — {map.title.toUpperCase()}
+                                </h2>
+                                <p className="text-white/60 text-sm mt-1">Klikni na stůl.</p>
+                            </div>
 
 							<div className="p-4 md:p-6">
 								<SvgPlan
