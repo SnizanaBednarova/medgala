@@ -1,5 +1,5 @@
 import {Cinzel} from 'next/font/google'
-import { PageHeader, PageFooter } from '@/lib/component/feature'
+import { PageFooter } from '@/lib/component/feature'
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import 'swiper/css'
