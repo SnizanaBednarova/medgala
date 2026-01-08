@@ -1,0 +1,12 @@
+(common) {
+    header /* {
+        -Server
+    }
+}
+
+:{$PORT} {
+        root * /usr/share/caddy
+        encode zstd gzip
+        file_server
+        try_files {path}.html {path}
+}

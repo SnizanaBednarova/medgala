@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.swiper-button-right,
+.swiper-button-left {
+	@apply absolute top-1/2 z-10 hidden lg:flex h-10 w-10 -translate-y-1/2 items-center justify-center
+	rounded-full border border-emerald-500/40 bg-emerald-500/10 backdrop-blur
+	shadow-[0_0_0_1px_rgba(255,255,255,.06)] text-emerald-400;
+}
+
+.swiper-button-left {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 40px;
+	height: 40px;
+	border: 1px solid white;
+	border-radius: 50%;
+	backdrop-filter: blur(6px);
+	justify-content: center;
+	align-items: center;
+	pointer-events: auto;
+	z-index: 10;
+	left: -50px;
+}
+
+.swiper-button-right {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 40px;
+	height: 40px;
+	border: 1px solid white;
+	border-radius: 50%;
+	backdrop-filter: blur(6px);
+	justify-content: center;
+	align-items: center;
+	pointer-events: auto;
+	z-index: 10;
+	right: -50px;
+}
+
+.swiper-button-right::after,
+.swiper-button-left::after {
+	@apply hidden;
+}
+.swiper-button-right::before,
+.swiper-button-left::before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 12px;
+	height: 12px;
+	border-top: 2px solid white;
+	border-right: 2px solid white;
+	transform: translate(-50%, -50%);
+}
+
+.swiper-button-right::before {
+	transform: translate(-60%, -50%) rotate(45deg);
+}
+
+.swiper-button-left::before {
+	transform: translate(-30%, -50%) rotate(-135deg);
+}
+
+.swiper-pagination-bullet-active {
+	@apply bg-white;
+}
+
+#terms {
+	h3 {
+		@apply text-xl font-semibold py-2;
+	}
+	p {
+		@apply text-sm text-justify py-2;
+	}
+}
+
+html {
+	scroll-behavior: smooth;
+	scroll-padding-top: 80px;
+}
