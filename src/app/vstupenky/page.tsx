@@ -290,7 +290,7 @@ export default function VstupenkyPage() {
 	const [ticket, setTicket] = useState<Ticket>('standard')
 	const [activeZone, setActiveZone] = useState(TICKETS[ticket].zone)
 
-	const [occupied, setOccupied] = useState<Record<string, number>>({
+	const [occupied] = useState<Record<string, number>>({
 		F15: 6,
 		F16: 10,
 		F23: 2,
