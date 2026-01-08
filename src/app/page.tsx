@@ -5,9 +5,19 @@ import BeforeAfterSwiper from "@/lib/component/feature/BeforeAfterSwiper";
 export default function Home() {
 	return (
 		<div>
-			<div className="glass shadow-soft">
-			<img src="/img/Grafika banneru.png"
-					 alt="Přeměna postavy – před a po" className="w-full"/>
+			<div className="relative">
+			  <img src="/img/Grafika banneru.png" className="h-[50rem] w-full block object-cover" alt="banner"/>
+				<div
+					className="
+      pointer-events-none
+      absolute inset-x-0 bottom-0
+      h-[7rem]
+      bg-gradient-to-b
+      from-transparent
+      via-[#002c5c]/70
+      to-[#002c5c]
+    "
+				/>
 			</div>
 			<section
 				id="about"
@@ -25,7 +35,7 @@ export default function Home() {
 
 								{/* KDY */}
 								<div className="flex items-start gap-10">
-									<div className="text-white font-semibold tracking-widest text-sm w-32">
+									<div className="text-white font-semibold tracking-widest text-3xl w-32">
 										KDY?
 									</div>
 									<div className="text-3xl font-medium text-white">
@@ -35,10 +45,10 @@ export default function Home() {
 
 								{/* KDE */}
 								<div className="flex items-start gap-10">
-									<div className="text-white font-semibold tracking-widest text-sm w-32">
+									<div className="text-white font-semibold tracking-widest text-3xl w-32">
 										KDE?
 									</div>
-									<div className="text-lg leading-relaxed text-white/90">
+									<div className="text-3xl leading-relaxed text-white/90">
 										V multifunkční aule{" "}
 										<span className="font-semibold text-white">GONG</span>
 										<br />
@@ -49,17 +59,25 @@ export default function Home() {
 								</div>
 
 								{/* DRESSCODE */}
-								<div className="flex items-start gap-10">
-									<div className="text-white font-semibold tracking-widest text-sm w-32">
+								<div className="flex items-start gap-36">
+									<div className="py-1.5 text-white font-semibold tracking-widest text-3xl w-32">
 										DRESSCODE?
 									</div>
-									<div className="flex items-center gap-4 flex-wrap">
+									<div className="flex items-end gap-4 flex-wrap text-3xl">
 							<span className="px-5 py-1.5 rounded-full bg-blue-800/60 border border-white/20 text-white">
 								Modrá
 							</span>
-										<span className="px-5 py-1.5 rounded-full bg-white/10 border border-white/30 text-white">
-								Stříbrná
-							</span>
+										<span
+											className="
+    px-5 py-1.5 rounded-full
+    text-blue-800/60
+    border border-white/30
+    bg-[url('/img/img.png')]
+    bg-cover bg-center
+  "
+										>
+  Stříbrná
+</span>
 									</div>
 								</div>
 

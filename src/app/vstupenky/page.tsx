@@ -24,13 +24,13 @@ const TICKETS: Record<Ticket, { name: string; price: number; zone?: Zone; hint: 
 	economy: { name: 'ECONOMY', price: 449, hint: 'Stání / bez stolu' },
 	standard: { name: 'STANDARD', price: 699, zone: 'standard', hint: 'Standardní stoly' },
 	vip_silver: { name: 'VIP SILVER', price: 1199, zone: 'vip_silver', hint: 'VIP Silver zóna' },
-	vip_gold: { name: 'VIP GOLD', price: 1499, zone: 'vip_gold', hint: 'VIP Gold zóna' },
+	vip_gold: { name: 'VIP GOLD', price: 1599, zone: 'vip_gold', hint: 'VIP Gold zóna' },
 }
 
 const velkySal: SeatMapDef = {
 	key: 'velky',
 	title: 'Velký sál',
-	svgSrc: '/img/Velký sál.svg',
+	svgSrc: '/img/velky-sal.svg',
 	tables: [
 		{ id: 'F1', label: 'F1', zone: 'standard', capacity: 8 },
 		{ id: 'F2', label: 'F2', zone: 'standard', capacity: 8 },
@@ -87,7 +87,7 @@ const velkySal: SeatMapDef = {
 const malySal: SeatMapDef = {
   key: 'maly',
   title: 'Malý sál',
-  svgSrc: '/img/Malý sál.svg',
+  svgSrc: '/img/maly-sal.svg',
   tables: [
     { id: 'M1', label: 'M1', zone: 'standard', capacity: 8 },
     { id: 'M2', label: 'M2', zone: 'standard', capacity: 8 },
@@ -374,7 +374,7 @@ export default function VstupenkyPage() {
 	}
 
 	return (
-		<main className="min-h-screen bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 text-white">
+		<main className="min-h-screen bg-gradient-to-br bg-primary-300 text-white">
 			<div className="max-w-7xl mx-auto px-6 py-14">
 				<header className="mb-10">
 					<p className="text-cyan-300 tracking-widest text-xs font-semibold">MED GALA 2026</p>
@@ -388,7 +388,6 @@ export default function VstupenkyPage() {
 					<aside className="order-1 lg:order-none rounded-3xl bg-white/5 border border-white/15 backdrop-blur-xl p-7 lg:sticky lg:top-6">
 						<div className="flex items-center justify-between">
 							<h2 className="font-semibold tracking-widest text-sm text-white/85">1. VÝBĚR LÍSTKU</h2>
-							<span className="text-xs text-white/50">max 10 ks</span>
 						</div>
 
 						<div className="mt-6 space-y-3">
@@ -523,18 +522,6 @@ export default function VstupenkyPage() {
 								>
 									Koupit
 								</button>
-
-								<button className="rounded-xl bg-white/10 border border-white/15 font-semibold py-3 hover:bg-white/15 transition" onClick={() => alert('Demo: Rezervace bez odeslání lístků')}>
-									Rezervovat (bez odeslání lístků)
-								</button>
-
-								<button className="rounded-xl bg-white/10 border border-white/15 font-semibold py-3 hover:bg-white/15 transition" onClick={() => alert('Demo: Rezervace + odeslat lístky')}>
-									Rezervovat + odeslat lístky
-								</button>
-
-								<p className="text-xs text-white/50 leading-relaxed mt-2">
-									Čísla židlí jsou orientační. Při reálném checkoutu se stůl/místa zarezervují na omezený čas.
-								</p>
 							</div>
 						</div>
 					</aside>

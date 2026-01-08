@@ -39,7 +39,7 @@ export default async function RootLayout({
 			/>
 			<link rel="manifest" href="/icon/site.webmanifest" />
 		</head>
-		<body className={`${cinzel.className} bg-blue-800 ext-neutral-100 antialiased`}>
+		<body className={`${cinzel.className} bg-primary-300 ext-neutral-100 antialiased`}>
 		{children}
 		<PageFooter/>
 		</body>

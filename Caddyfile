@@ -1,12 +1,18 @@
 (common) {
-    header /* {
-        -Server
-    }
+  header /* {
+    -Server
+  }
 }
 
 :{$PORT} {
-        root * /usr/share/caddy
-        encode zstd gzip
-        file_server
-        try_files {path}.html {path}
+  import common
+
+  root * /usr/share/caddy
+  encode zstd gzip
+
+  route {
+    try_files {path} {path}/ {path}.html /index.html
+
+    file_server
+  }
 }
