@@ -128,6 +128,12 @@ const malySal: SeatMapDef = {
   ],
 }
 
+// Build a hall-agnostic table index so selections persist across hall switches
+const ALL_TABLES: TableMeta[] = [...velkySal.tables, ...malySal.tables]
+const ALL_TABLES_BY_ID: Map<string, TableMeta> = new Map(
+  ALL_TABLES.map((t) => [t.id, t])
+)
+
 function clamp(n: number, a: number, b: number) {
 	return Math.max(a, Math.min(b, n))
 }
@@ -283,7 +289,8 @@ export default function VstupenkyPage() {
 	const [economyCount, setEconomyCount] = useState(0)
 	const [economyVisible, setEconomyVisible] = useState(false)
 
-	const tablesById = useMemo(() => new Map(map.tables.map((t) => [t.id, t])), [map.tables])
+	// Use hall-agnostic index so chosen tables from other hall remain visible and counted
+	const tablesById = useMemo(() => ALL_TABLES_BY_ID, [])
 
  useEffect(() => {
         const zone = TICKETS[ticket].zone
@@ -570,12 +577,11 @@ export default function VstupenkyPage() {
 
 					{/* RIGHT CONTENT */}
 					<section className="order-2 lg:order-none space-y-8">
-						{/* HALL SWITCH */}
+    		{/* HALL SWITCH */}
 						<div className="flex flex-wrap gap-3 items-center">
 							<button
 								onClick={() => {
 									setHall('velky')
-									setActiveTable(null)
 								}}
 								className={[
 									'px-5 py-2 rounded-full border transition font-semibold',
@@ -588,7 +594,6 @@ export default function VstupenkyPage() {
 							<button
 								onClick={() => {
 									setHall('maly')
-									setActiveTable(null)
 								}}
 								className={[
 									'px-5 py-2 rounded-full border transition font-semibold',
