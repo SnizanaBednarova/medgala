@@ -21,7 +21,7 @@ type SeatMapDef = {
 }
 
 const TICKETS: Record<Ticket, { name: string; price: number; zone?: Zone; hint: string }> = {
-	economy: { name: 'ECONOMY', price: 449, hint: 'Stání / bez stolu' },
+	economy: { name: 'ECONOMY', price: 499, hint: 'Stání / bez stolu' },
 	standard: { name: 'STANDARD', price: 699, zone: 'standard', hint: 'Standardní stoly' },
 	vip_silver: { name: 'VIP SILVER', price: 1199, zone: 'vip_silver', hint: 'VIP Silver zóna' },
 	vip_gold: { name: 'VIP GOLD', price: 1599, zone: 'vip_gold', hint: 'VIP Gold zóna' },
@@ -89,59 +89,43 @@ const malySal: SeatMapDef = {
   title: 'Malý sál',
   svgSrc: '/img/maly-sal.svg',
   tables: [
-    { id: 'M1', label: 'M1', zone: 'standard', capacity: 8 },
-    { id: 'M2', label: 'M2', zone: 'standard', capacity: 8 },
-    { id: 'M3', label: 'M3', zone: 'standard', capacity: 8 },
-    { id: 'M4', label: 'M4', zone: 'standard', capacity: 8 },
-    { id: 'M5', label: 'M5', zone: 'standard', capacity: 8 },
-    { id: 'M6', label: 'M6', zone: 'standard', capacity: 8 },
-    { id: 'M7', label: 'M7', zone: 'standard', capacity: 8 },
-    { id: 'M8', label: 'M8', zone: 'standard', capacity: 8 },
-    { id: 'M9', label: 'M9', zone: 'standard', capacity: 8 },
-    { id: 'M10', label: 'M10', zone: 'standard', capacity: 8 },
-    { id: 'M11', label: 'M11', zone: 'standard', capacity: 8 },
-    { id: 'M12', label: 'M12', zone: 'standard', capacity: 8 },
-    { id: 'M13', label: 'M13', zone: 'standard', capacity: 8 },
-    { id: 'M14', label: 'M14', zone: 'standard', capacity: 8 },
-    { id: 'M15', label: 'M15', zone: 'standard', capacity: 8 },
-    { id: 'M16', label: 'M16', zone: 'standard', capacity: 8 },
-    { id: 'M17', label: 'M17', zone: 'standard', capacity: 8 },
-    { id: 'M18', label: 'M18', zone: 'standard', capacity: 8 },
-    { id: 'M19', label: 'M19', zone: 'standard', capacity: 8 },
-    { id: 'M20', label: 'M20', zone: 'standard', capacity: 8 },
-    { id: 'M21', label: 'M21', zone: 'standard', capacity: 8 },
-    { id: 'M22', label: 'M22', zone: 'standard', capacity: 8 },
-    { id: 'M23', label: 'M23', zone: 'standard', capacity: 8 },
-    { id: 'M24', label: 'M24', zone: 'standard', capacity: 8 },
-    { id: 'M25', label: 'M25', zone: 'standard', capacity: 8 },
-    { id: 'M26', label: 'M26', zone: 'standard', capacity: 8 },
-    { id: 'M27', label: 'M27', zone: 'standard', capacity: 8 },
-    { id: 'M28', label: 'M28', zone: 'standard', capacity: 8 },
-		{ id: 'M29', label: 'M29', zone: 'standard', capacity: 8 },
-		{ id: 'M30', label: 'M30', zone: 'standard', capacity: 8 },
-		{ id: 'M31', label: 'M31', zone: 'standard', capacity: 8 },
-		{ id: 'M32', label: 'M32', zone: 'standard', capacity: 8 },
-		{ id: 'M33', label: 'M33', zone: 'standard', capacity: 8 },
-		{ id: 'M34', label: 'M34', zone: 'standard', capacity: 8 },
-		{ id: 'M35', label: 'M35', zone: 'standard', capacity: 8 },
-		{ id: 'M36', label: 'M36', zone: 'standard', capacity: 8 },
-
-		{ id: 'V1', label: 'V1', zone: 'vip_gold', capacity: 8 },
-		{ id: 'V2', label: 'V2', zone: 'vip_gold', capacity: 8 },
-		{ id: 'V3', label: 'V3', zone: 'vip_gold', capacity: 8 },
-		{ id: 'V4', label: 'V4', zone: 'vip_gold', capacity: 8 },
-		{ id: 'V5', label: 'V5', zone: 'vip_gold', capacity: 8 },
-		{ id: 'V6', label: 'V6', zone: 'vip_gold', capacity: 8 },
-		{ id: 'V7', label: 'V7', zone: 'vip_gold', capacity: 8 },
-		{ id: 'V8', label: 'V8', zone: 'vip_gold', capacity: 8 },
-		{ id: 'V9', label: 'V9', zone: 'vip_gold', capacity: 8 },
-		{ id: 'V10', label: 'V10', zone: 'vip_gold', capacity: 8 },
-		{ id: 'V11', label: 'V11', zone: 'vip_gold', capacity: 8 },
-		{ id: 'V12', label: 'V12', zone: 'vip_gold', capacity: 8 },
-		{ id: 'V13', label: 'V13', zone: 'vip_gold', capacity: 8 },
-		{ id: 'V14', label: 'V14', zone: 'vip_gold', capacity: 8 },
-		{ id: 'V15', label: 'V15', zone: 'vip_gold', capacity: 8 },
-	],
+    { id: 'M1', label: 'M1', zone: 'standard', capacity: 6 },
+    { id: 'M2', label: 'M2', zone: 'standard', capacity: 6 },
+    { id: 'M3', label: 'M3', zone: 'standard', capacity: 6 },
+    { id: 'M4', label: 'M4', zone: 'standard', capacity: 6 },
+    { id: 'M5', label: 'M5', zone: 'standard', capacity: 6 },
+    { id: 'M6', label: 'M6', zone: 'standard', capacity: 6 },
+    { id: 'M7', label: 'M7', zone: 'standard', capacity: 6 },
+    { id: 'M8', label: 'M8', zone: 'standard', capacity: 6 },
+    { id: 'M9', label: 'M9', zone: 'standard', capacity: 6 },
+    { id: 'M10', label: 'M10', zone: 'standard', capacity: 6 },
+    { id: 'M11', label: 'M11', zone: 'standard', capacity: 6 },
+    { id: 'M12', label: 'M12', zone: 'standard', capacity: 6 },
+    { id: 'M13', label: 'M13', zone: 'standard', capacity: 6 },
+    { id: 'M14', label: 'M14', zone: 'standard', capacity: 6 },
+    { id: 'M15', label: 'M15', zone: 'standard', capacity: 6 },
+    { id: 'M16', label: 'M16', zone: 'standard', capacity: 6 },
+    { id: 'M17', label: 'M17', zone: 'standard', capacity: 6 },
+    { id: 'M18', label: 'M18', zone: 'standard', capacity: 6 },
+    { id: 'M19', label: 'M19', zone: 'standard', capacity: 6 },
+    { id: 'M20', label: 'M20', zone: 'standard', capacity: 6 },
+    { id: 'M21', label: 'M21', zone: 'standard', capacity: 6 },
+    { id: 'M22', label: 'M22', zone: 'standard', capacity: 6 },
+    { id: 'M23', label: 'M23', zone: 'standard', capacity: 6 },
+    { id: 'M24', label: 'M24', zone: 'standard', capacity: 6 },
+    { id: 'M25', label: 'M25', zone: 'standard', capacity: 6 },
+    { id: 'M26', label: 'M26', zone: 'standard', capacity: 6 },
+    { id: 'M27', label: 'M27', zone: 'standard', capacity: 6 },
+    { id: 'M28', label: 'M28', zone: 'standard', capacity: 6 },
+		{ id: 'M29', label: 'M29', zone: 'standard', capacity: 6 },
+		{ id: 'M30', label: 'M30', zone: 'standard', capacity: 6 },
+		{ id: 'M31', label: 'M31', zone: 'standard', capacity: 6 },
+		{ id: 'M32', label: 'M32', zone: 'standard', capacity: 6 },
+		{ id: 'M33', label: 'M33', zone: 'standard', capacity: 6 },
+		{ id: 'M34', label: 'M34', zone: 'standard', capacity: 6 },
+		{ id: 'M35', label: 'M35', zone: 'standard', capacity: 6 },
+		{ id: 'M36', label: 'M36', zone: 'standard', capacity: 6 },
+  ],
 }
 
 function clamp(n: number, a: number, b: number) {
@@ -301,6 +285,7 @@ export default function VstupenkyPage() {
 
 	const [selected, setSelected] = useState<Record<string, number>>({})
 	const [activeTable, setActiveTable] = useState<string | null>(null)
+	const [economyCount, setEconomyCount] = useState(1)
 
 	const tablesById = useMemo(() => new Map(map.tables.map((t) => [t.id, t])), [map.tables])
 
@@ -308,23 +293,25 @@ export default function VstupenkyPage() {
 		const zone = TICKETS[ticket].zone
 		setActiveZone(zone)
 
+		// If switching to a mode without a zone (economy), reset active table.
 		if (!zone) {
-			setSelected({})
 			setActiveTable(null)
 			return
 		}
 
-		setSelected((prev) => {
-			const entries = Object.entries(prev).filter(([id]) => tablesById.get(id)?.zone === zone)
-			return Object.fromEntries(entries)
-		})
-
+		// Preserve activeTable on seated zone switch when it already has some selection,
+		// so the user can still adjust quantity or cancel that table even if it is not
+		// in the currently clickable zone. If it has no selection and is outside of
+		// the active zone, clear it.
 		setActiveTable((prev) => {
 			if (!prev) return null
 			const tbl = tablesById.get(prev)
-			return tbl && tbl.zone === zone ? prev : null
+			if (!tbl) return null
+			if (tbl.zone === zone) return prev
+			const hasSelection = (selected[prev] ?? 0) > 0
+			return hasSelection ? prev : null
 		})
-	}, [ticket, tablesById])
+	}, [ticket, tablesById, selected])
 
 	const [firstName, setFirstName] = useState('')
 	const [lastName, setLastName] = useState('')
@@ -360,12 +347,42 @@ export default function VstupenkyPage() {
 		})
 	}
 
-	const total = useMemo(() => {
-		const base = TICKETS[ticket].price
-		if (ticket === 'economy') return base
-		const seatCount = Object.values(selected).reduce((a, b) => a + b, 0)
-		return base * seatCount
-	}, [selected, ticket])
+ const total = useMemo(() => {
+		// Economy is a separate flow priced by quantity when active
+		if (ticket === 'economy') return TICKETS.economy.price * economyCount
+
+		// For seated tickets, sum per-table counts using each table's zone price.
+		const zonePrice: Record<Zone, number> = {
+			standard: TICKETS.standard.price,
+			vip_silver: TICKETS.vip_silver.price,
+			vip_gold: TICKETS.vip_gold.price,
+		}
+		let sum = 0
+		for (const [id, count] of Object.entries(selected)) {
+			const z = tablesById.get(id)?.zone
+			if (!z) continue
+			sum += (zonePrice[z] ?? 0) * count
+		}
+		return sum
+ }, [selected, ticket, economyCount, tablesById])
+
+ // Keep a convenient list of tables to show in the sidebar: active first, then other selected ones
+ const selectedTableIds = useMemo(
+   () => Object.keys(selected).filter((id) => (selected[id] ?? 0) > 0),
+   [selected]
+ )
+ const sidebarTableList = useMemo(() => {
+   const seen = new Set<string>()
+   const list: string[] = []
+   if (activeTable) {
+     list.push(activeTable)
+     seen.add(activeTable)
+   }
+   for (const id of selectedTableIds) {
+     if (!seen.has(id)) list.push(id)
+   }
+   return list
+ }, [activeTable, selectedTableIds])
 
 	const canCheckout = agreeTerms && agreeGdpr && email.trim().length > 3
 
@@ -400,6 +417,7 @@ export default function VstupenkyPage() {
 										if (k === 'economy') {
 											setSelected({})
 											setActiveTable(null)
+											setEconomyCount(1)
 										}
 									}}
 									className={[
@@ -418,81 +436,121 @@ export default function VstupenkyPage() {
 							))}
 						</div>
 
-						<div className="mt-6 rounded-2xl bg-white/5 border border-white/10 p-4">
-							<div className="text-xs text-white/60 tracking-widest">CENA</div>
-							<div className="mt-2 font-semibold tabular-nums text-2xl">{total} Kč</div>
-							<div className="text-xs text-white/50 mt-1">
-								Počítáno podle vybraných míst (nebo 1× u stání).
-							</div>
-						</div>
-
-						<div className="mt-6 rounded-2xl bg-white/5 border border-white/10 p-4">
-							<div className="flex items-center justify-between">
-								<div className="text-xs text-white/60 tracking-widest">VYBRANÝ STŮL</div>
-    				<button
-    					className="text-xs text-white/60 hover:text-white"
-    					onClick={() => {
-    						if (activeTable) {
-    							setSelected((prev) => {
-    								const next = { ...prev }
-    								delete next[activeTable]
-    								return next
-    							})
-    						}
-    						setActiveTable(null)
-    					}}
-    				>
-    					zrušit
-    				</button>
+							<div className="mt-6 rounded-2xl bg-white/5 border border-white/10 p-4">
+								<div className="text-xs text-white/60 tracking-widest">CENA</div>
+								<div className="mt-2 font-semibold tabular-nums text-2xl">{total} Kč</div>
+								<div className="text-xs text-white/50 mt-1">
+									Počítáno podle vybraných míst (u stání dle počtu kusů).
+								</div>
 							</div>
 
-							{ticket === 'economy' ? (
-								<div className="mt-3 text-white/70 text-sm">
-									ECONOMY je bez stolu – výběr sedadel není potřeba.
-								</div>
-							) : activeTable ? (
-								<>
-									<div className="mt-3 flex items-center gap-2">
-										<div className="font-semibold text-lg">{activeTable}</div>
-										{tablesById.get(activeTable) && (
-											<span className={`text-xs px-2 py-1 rounded-full border ${zoneBadge(tablesById.get(activeTable)!.zone).cls}`}>
-												{zoneBadge(tablesById.get(activeTable)!.zone).name}
-											</span>
-										)}
-									</div>
+      <div className="mt-6 rounded-2xl bg-white/5 border border-white/10 p-4">
+                <div className="flex items-center justify-between">
+                    <div className="text-xs text-white/60 tracking-widest">VYBRANÉ STOLY</div>
+                <button
+                  className="text-xs text-white/60 hover:text-white"
+                  onClick={() => {
+                    // Economy: cancel means clear quantity to 0
+                    if (ticket === 'economy') {
+                      setEconomyCount(0)
+                      setActiveTable(null)
+                      return
+                    }
 
-									<div className="text-sm text-white/60 mt-1">
-										Obsazeno: {getState(activeTable).occ}/{getState(activeTable).cap} • Vybráno: {getState(activeTable).sel}
-									</div>
+                    if (activeTable) {
+                      setSelected((prev) => {
+                        const next = { ...prev }
+                        delete next[activeTable]
+                        return next
+                      })
+                      setActiveTable(null)
+                      return
+                    }
 
-									<div className="mt-4 flex items-center gap-2">
-										<button
-											className="px-3 py-2 rounded-xl bg-white/10 border border-white/10 hover:bg-white/15"
-											onClick={() => removeSeat(activeTable)}
-										>
-											−
-										</button>
-										<div className="min-w-12 text-center tabular-nums font-semibold">
-											{selected[activeTable] ?? 0}
-										</div>
-										<button
-											className="px-3 py-2 rounded-xl bg-white text-blue-950 font-semibold hover:brightness-110"
-											onClick={() => addSeat(activeTable)}
-										>
-											+
-										</button>
+                    // If no activeTable but there are some selections, clear all
+                    setSelected((prev) => (Object.keys(prev).length ? {} : prev))
+                  }}
+                >
+                  zrušit
+                </button>
+                </div>
 
-										<span className="ml-auto text-sm text-white/60">
-											Volno: {getState(activeTable).free}
-										</span>
-									</div>
-								</>
-							) : (
-								<div className="mt-3 text-white/70 text-sm">
-									Klikni na stůl v plánku a vyber počet míst.
-								</div>
-							)}
-						</div>
+              {ticket === 'economy' ? (
+                <div className="mt-3">
+                  <div className="flex items-center gap-2">
+                    <button
+                      className="px-3 py-2 rounded-xl bg-white/10 border border-white/10 hover:bg-white/15 disabled:opacity-40"
+                      onClick={() => setEconomyCount((c) => clamp(c - 1, 0, 100))}
+                      disabled={economyCount <= 0}
+                    >
+                      −
+                    </button>
+                    <div className="min-w-12 text-center tabular-nums font-semibold">{economyCount}</div>
+                    <button
+                      className="px-3 py-2 rounded-xl bg-white text-blue-950 font-semibold hover:brightness-110 disabled:opacity-40"
+                      onClick={() => setEconomyCount((c) => clamp(c + 1, 1, 100))}
+                      disabled={economyCount >= 100}
+                    >
+                      +
+                    </button>
+
+                    <span className="ml-auto text-sm text-white/60">ECONOMY bez stolu</span>
+                  </div>
+                  <div className="text-xs text-white/50 mt-2">Zvol počet vstupenek ke stání</div>
+                </div>
+              ) : sidebarTableList.length > 0 ? (
+                <div className="mt-2 space-y-3">
+                  {sidebarTableList.map((id) => {
+                    const t = tablesById.get(id)
+                    if (!t) return null
+                    const st = getState(id)
+                    const active = id === activeTable
+                    return (
+                      <div
+                        key={id}
+                        className={[
+                          'rounded-xl border p-3 transition',
+                          active ? 'border-cyan-300 bg-white/10' : 'border-white/10 bg-white/5 hover:bg-white/10',
+                        ].join(' ')}
+                        onClick={() => setActiveTable(id)}
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="font-semibold text-lg">{id}</div>
+                          <span className={`text-xs px-2 py-1 rounded-full border ${zoneBadge(t.zone).cls}`}>
+                            {zoneBadge(t.zone).name}
+                          </span>
+                        </div>
+                        <div className="text-sm text-white/60 mt-1">
+                          Obsazeno: {st.occ}/{st.cap} • Vybráno: {st.sel}
+                        </div>
+                        <div className="mt-3 flex items-center gap-2">
+                          <button
+                            className="px-3 py-2 rounded-xl bg-white/10 border border-white/10 hover:bg-white/15"
+                            onClick={() => removeSeat(id)}
+                          >
+                            −
+                          </button>
+                          <div className="min-w-12 text-center tabular-nums font-semibold">
+                            {selected[id] ?? 0}
+                          </div>
+                          <button
+                            className="px-3 py-2 rounded-xl bg-white text-blue-950 font-semibold hover:brightness-110"
+                            onClick={() => addSeat(id)}
+                          >
+                            +
+                          </button>
+                          <span className="ml-auto text-sm text-white/60">Volno: {st.free}</span>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              ) : (
+                <div className="mt-3 text-white/70 text-sm">
+                  Klikni na stůl v plánku a vyber počet míst.
+                </div>
+              )}
+              </div>
 
 						<div className="mt-8">
 							<h3 className="font-semibold tracking-widest text-sm text-white/85">2. KONTAKTNÍ ÚDAJE</h3>

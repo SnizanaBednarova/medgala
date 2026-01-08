@@ -32,12 +32,17 @@ const Photos: Photo[] = [
 	{
 		id: 'p4',
 		alt: '4',
+		src: '/img/4.jpg'
+	},
+	{
+		id: 'p5',
+		alt: '5',
 		src: '/img/5.jpg'
 	},
 	{
 		id: 'p6',
 		alt: '6',
-		src: '/img/1.jpg'
+		src: '/img/6.jpg'
 	},
 	{
 		id: 'p7',
