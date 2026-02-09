@@ -20,7 +20,7 @@ class Config
         $this->appUrl = getenv('APP_URL') ?: 'http://localhost:8011';
         $this->gpMerchantNumber = '20160190';
         $this->gpPrivateKey =  __DIR__ . '/../cert/gpwebpay-pvk-test.key';
-        $this->gpPrivateKeyPassword = 'edvk48T5W';
+        $this->gpPrivateKeyPassword = 'edvk48T5WFEgghr';
         $this->gpPublicKey =  __DIR__ . '/../cert/gpe.signing_test.pem';
         $this->gpUrl = 'https://test.portal.gpwebpay.com';
         $this->smtpHost = getenv('SMTP_HOST') ?: 'smtp.gmail.com';
