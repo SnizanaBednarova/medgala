@@ -7,4 +7,17 @@ services:
       - .env
     ports:
       - "8011:80"
-      - "4431:443"
+
+  phpapi:
+    build:
+      context: ./phpapi
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./phpapi/storage:/var/www/storage
+      - ./phpapi/src:/var/www/src
+      - ./phpapi/public:/var/www/public
+      - ./public/img/tickets:/var/www/public/img/tickets
+    expose:
+      - "8080"

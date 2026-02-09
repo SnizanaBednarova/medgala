@@ -275,14 +275,18 @@ export default function VstupenkyPage() {
  const [ticket, setTicket] = useState<Ticket>('standard')
  const [activeZone, setActiveZone] = useState(TICKETS[ticket].zone)
 
-	const [occupied] = useState<Record<string, number>>({
-		F15: 6,
-		F16: 10,
-		F23: 2,
-		F39: 8,
-		M24: 5,
-		R3: 9,
-	})
+	const [occupied, setOccupied] = useState<Record<string, number>>({})
+
+	useEffect(() => {
+		fetch('/api/tables/occupied')
+			.then(res => res.json())
+			.then(data => {
+				if (data && typeof data === 'object') {
+					setOccupied(data)
+				}
+			})
+			.catch(err => console.error('Failed to fetch occupied seats', err))
+	}, [])
 
 	const [selected, setSelected] = useState<Record<string, number>>({})
 	const [activeTable, setActiveTable] = useState<string | null>(null)
@@ -563,15 +567,72 @@ export default function VstupenkyPage() {
 								</label>
 							</div>
 
-							<div className="mt-6 grid gap-3">
-								<button
-									className="rounded-xl bg-cyan-400 text-blue-950 font-semibold py-3 hover:brightness-110 transition disabled:opacity-40 disabled:hover:brightness-100"
-									disabled={!canCheckout}
-									onClick={() => alert('Demo: Koupit (napojení na platební bránu doplníme).')}
-								>
-									Koupit
-								</button>
-							</div>
+  					<div className="mt-6 grid gap-3">
+  						<button
+  							className="rounded-xl bg-cyan-400 text-blue-950 font-semibold py-3 hover:brightness-110 transition disabled:opacity-40 disabled:hover:brightness-100"
+  							disabled={!canCheckout}
+  							onClick={async () => {
+  								try {
+  									const items: { label: string; count: number; price: number; table?: string }[] = []
+  									// Seated selections
+  									for (const [id, count] of Object.entries(selected)) {
+  										if (!count) continue
+  										const tbl = tablesById.get(id)
+  										if (!tbl) continue
+  										const priceByZone: Record<Zone, number> = {
+  											standard: TICKETS.standard.price,
+  											vip_silver: TICKETS.vip_silver.price,
+  											vip_gold: TICKETS.vip_gold.price,
+  										}
+  										items.push({
+  											label: `${tbl.label} (${tbl.zone.toUpperCase()})`,
+  											count,
+  											price: priceByZone[tbl.zone],
+  											table: tbl.label,
+  										})
+  									}
+  									// Economy
+  									if (economyCount > 0) {
+  										items.push({ label: 'ECONOMY', count: economyCount, price: TICKETS.economy.price })
+  									}
+
+  									if (items.length === 0) {
+  										alert('Vyber prosím alespoň jednu vstupenku.')
+  										return
+  									}
+
+  									const payload = {
+  										firstName,
+  										lastName,
+  										email,
+  										phone,
+  										agree: agreeTerms && agreeGdpr,
+  										items,
+  										total,
+  									}
+  									const res = await fetch('/api/payment/init', {
+  										method: 'POST',
+  										headers: { 'Content-Type': 'application/json' },
+  										body: JSON.stringify(payload),
+  									})
+  									if (!res.ok) {
+  										const err = await res.json().catch(() => ({}))
+  										alert('Chyba při inicializaci platby: ' + (err.error || res.status))
+  										return
+  									}
+  									const data = (await res.json()) as { orderId: string; redirectUrl: string }
+  									if (data?.redirectUrl) {
+  										window.location.href = data.redirectUrl
+  									}
+  								} catch (e) {
+  									console.error(e)
+  									alert('Nepodařilo se odeslat objednávku.')
+  								}
+  							}}
+  						>
+  							Koupit
+  						</button>
+  					</div>
 						</div>
 					</aside>
 

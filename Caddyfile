@@ -11,8 +11,11 @@
   encode zstd gzip
 
   route {
-    try_files {path} {path}/ {path}.html /index.html
+    handle /api/* {
+      reverse_proxy phpapi:8080
+    }
 
+    try_files {path} {path}.html {path}/ /index.html
     file_server
   }
 }
