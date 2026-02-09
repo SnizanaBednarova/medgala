@@ -15,4 +15,5 @@ RUN chmod -R 777 /srv/app/out
 FROM caddy:2-alpine AS caddy
 COPY --from=base /srv/app/out/ /usr/share/caddy/
 COPY Caddyfile /etc/caddy/Caddyfile
+ENV PORT=80
 CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
