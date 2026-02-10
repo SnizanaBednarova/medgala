@@ -5,7 +5,6 @@ services:
       dockerfile: Dockerfile
     environment:
       - PHP_API_ADDR=phpapi:8080
-      - PORT=80
     env_file:
       - .env
     ports:
