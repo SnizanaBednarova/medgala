@@ -53,7 +53,7 @@ class GpService
         $gpOrderNumber = substr($digits, -10);
 
         $operation = new Operation(
-					orderNumber: new OrderNumber($gpOrderNumber),
+					orderNumber: new OrderNumber((int)$gpOrderNumber),
 					amount: new AmountInPennies($amountCents),
 					currency:  new Currency(CurrencyEnum::CZK()),
 					responseUrl:  new ResponseUrl($returnUrl)
