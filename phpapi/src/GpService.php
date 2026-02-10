@@ -59,11 +59,6 @@ class GpService
 					responseUrl:  new ResponseUrl($returnUrl)
         );
 
-        // Keep original app order id in MD and description for correlation
-        $operation->addParam(new \Pixidos\GPWebPay\Param\Md($gpOrderNumber));
-        $operation->addParam(new Description($description));
-        $operation->addParam(new Lang('cs'));
-
         $request = $this->requestFactory->create($operation);
         return $request->getRequestUrl();
     }
