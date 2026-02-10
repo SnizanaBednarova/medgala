@@ -14,7 +14,7 @@
     # Use handle_path to strip /api prefix before proxying if the PHP API doesn't expect it
     # Or just use handle if it does.
     handle /api/* {
-      reverse_proxy {$PHPAPI_URL:phpapi:8080}
+      reverse_proxy {$PHPAPI_URL:8089}
     }
 
     try_files {path} {path}.html {path}/ /index.html
