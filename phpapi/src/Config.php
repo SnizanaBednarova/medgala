@@ -22,7 +22,7 @@ class Config
         $this->gpPrivateKey =  __DIR__ . '/../cert/gpwebpay-pvk-test.key';
         $this->gpPrivateKeyPassword = 'edvk48T5WFEgghr';
         $this->gpPublicKey =  __DIR__ . '/../cert/gpe.signing_test.pem';
-        $this->gpUrl = 'https://test.portal.gpwebpay.com';
+        $this->gpUrl = 'https://test.3dsecure.gpwebpay.com/pgw/order.do';
         $this->smtpHost = getenv('SMTP_HOST') ?: 'smtp.gmail.com';
         $this->smtpPort = (int)(getenv('SMTP_PORT') ?: 587);
         $this->smtpUser = getenv('SMTP_USER') ?: 'ples.ostrava@ifmsa.cz';
