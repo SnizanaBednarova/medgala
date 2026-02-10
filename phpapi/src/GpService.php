@@ -1,20 +1,15 @@
 <?php
 namespace MedGala;
 
-use Pixidos\GPWebPay\Config\PaymentConfig;
-use Pixidos\GPWebPay\Config\PaymentConfigProvider;
-use Pixidos\GPWebPay\Config\SignerConfig;
-use Pixidos\GPWebPay\Config\SignerConfigProvider;
+use Pixidos\GPWebPay\Config\Factory\ConfigFactory;
+use Pixidos\GPWebPay\Config\Factory\PaymentConfigFactory;
 use Pixidos\GPWebPay\Data\Operation;
 use Pixidos\GPWebPay\Enum\Currency as CurrencyEnum;
-use Pixidos\GPWebPay\Enum\DepositFlag as DepositFlagEnum;
 use Pixidos\GPWebPay\Factory\RequestFactory;
 use Pixidos\GPWebPay\Param\AmountInPennies;
 use Pixidos\GPWebPay\Param\Currency;
-use Pixidos\GPWebPay\Param\DepositFlag;
 use Pixidos\GPWebPay\Param\Description;
 use Pixidos\GPWebPay\Param\Lang;
-use Pixidos\GPWebPay\Param\MerchantNumber;
 use Pixidos\GPWebPay\Param\OrderNumber;
 use Pixidos\GPWebPay\Param\ResponseUrl;
 use Pixidos\GPWebPay\Signer\SignerFactory;
@@ -29,26 +24,19 @@ class GpService
     {
         $this->cfg = $cfg;
 
-        $paymentConfig = new PaymentConfig(
-            $cfg->gpUrl,
-            new MerchantNumber($cfg->gpMerchantNumber),
-            new DepositFlag(DepositFlagEnum::YES()),
-            'default'
-        );
-        $paymentConfigProvider = new PaymentConfigProvider();
-        $paymentConfigProvider->addPaymentConfig($paymentConfig);
+        $configFactory = new ConfigFactory(new PaymentConfigFactory());
+        $config = $configFactory->create([
+            ConfigFactory::PRIVATE_KEY => $cfg->gpPrivateKey,
+            ConfigFactory::PRIVATE_KEY_PASSPHRASE => $cfg->gpPrivateKeyPassword,
+            ConfigFactory::PUBLIC_KEY => $cfg->gpPublicKey,
+            ConfigFactory::URL => $cfg->gpUrl,
+            ConfigFactory::MERCHANT_NUMBER => $cfg->gpMerchantNumber,
+            ConfigFactory::DEPOSIT_FLAG => 1,
+        ]);
 
-        $signerConfig = new SignerConfig(
-            $cfg->gpPrivateKey,
-            $cfg->gpPrivateKeyPassword,
-            $cfg->gpPublicKey
-        );
-        $signerConfigProvider = new SignerConfigProvider();
-        $signerConfigProvider->addConfig($signerConfig, 'default');
+        $signerProvider = new SignerProvider(new SignerFactory(), $config->getSignerConfigProvider());
 
-        $signerProvider = new SignerProvider(new SignerFactory(), $signerConfigProvider);
-
-        $this->requestFactory = new RequestFactory($paymentConfigProvider, $signerProvider);
+        $this->requestFactory = new RequestFactory($config->getPaymentConfigProvider(), $signerProvider);
     }
 
     /**
@@ -65,11 +53,10 @@ class GpService
         $gpOrderNumber = substr($digits, -10);
 
         $operation = new Operation(
-            new OrderNumber($gpOrderNumber),
-            new AmountInPennies($amountCents),
-            new Currency(CurrencyEnum::CZK()),
-					  null,
-            new ResponseUrl($returnUrl)
+					orderNumber: new OrderNumber($gpOrderNumber),
+					amount: new AmountInPennies($amountCents),
+					currency:  new Currency(CurrencyEnum::CZK()),
+					responseUrl:  new ResponseUrl($returnUrl)
         );
 
         // Keep original app order id in MD and description for correlation
