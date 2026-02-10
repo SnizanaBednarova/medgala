@@ -19,8 +19,8 @@ class Config
     {
         $this->appUrl = getenv('APP_URL') ?: 'http://localhost:8011';
         $this->gpMerchantNumber = '20160190';
-				$this->gpPublicKey  = __DIR__ . '/../cert/gpe.signing_test.pem';       // GP TEST public cert (na ověřování odpovědí)
-			  $this->gpPrivateKey = __DIR__ . '/../cert/gpwebpay-pvk-test.key';
+				$this->gpPublicKey  = __DIR__ . '/../cert/gpe.signing_test.cer';       // GP TEST public cert (na ověřování odpovědí)
+			  $this->gpPrivateKey = __DIR__ . '/../cert/gpe.signing_test.pem';
 				$this->gpPrivateKeyPassword = 'edvk48T5WFEgghr';
         $this->gpUrl = 'https://test.3dsecure.gpwebpay.com/pgw/order.do';
         $this->smtpHost = getenv('SMTP_HOST') ?: 'smtp.gmail.com';
