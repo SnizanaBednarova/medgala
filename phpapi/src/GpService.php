@@ -68,7 +68,7 @@ class GpService
             new OrderNumber($gpOrderNumber),
             new AmountInPennies($amountCents),
             new Currency(CurrencyEnum::CZK()),
-            'default',
+					  null,
             new ResponseUrl($returnUrl)
         );
 
