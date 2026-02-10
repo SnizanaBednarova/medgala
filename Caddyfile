@@ -10,10 +10,12 @@
   root * /usr/share/caddy
   encode zstd gzip
 
-  handle_path /api/* {
-    reverse_proxy php.railway.internal:8080
+  handle /api/* {
+    reverse_proxy {$PHP_API_ADDR}
   }
 
-  try_files {path} {path}.html {path}/ /index.html
-  file_server
+  handle {
+    try_files {path} {path}.html {path}/ /index.html
+    file_server
+  }
 }

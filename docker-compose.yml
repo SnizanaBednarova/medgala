@@ -3,10 +3,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      - PHP_API_ADDR=phpapi:8080
+      - PORT=80
     env_file:
       - .env
     ports:
       - "8011:80"
+    networks:
+      - medgala-network
 
   phpapi:
     build:
@@ -21,3 +26,9 @@ services:
       - ./public/img/tickets:/var/www/public/img/tickets
     expose:
       - "8080"
+    networks:
+      - medgala-network
+
+networks:
+  medgala-network:
+    driver: bridge
