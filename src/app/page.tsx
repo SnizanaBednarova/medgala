@@ -6,7 +6,7 @@ export default function Home() {
 	return (
 		<div>
 			<div className="relative">
-			  <img src="/img/Grafika banneru.png" className="h-[50rem] w-full block object-contain" alt="banner"/>
+			  <img src="/img/Grafika banneru.png" className="w-full block object-contain" alt="banner"/>
 				<div
 					className="
       pointer-events-none
