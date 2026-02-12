@@ -67,11 +67,11 @@ class GpService
     {
         // GPWebPay validates signature via Signer; re-create request and verify SIGN and result.
         // For minimal viable: accept if OPERATION & RESULT are present and RESULT == 0.
-        return isset($query['RESULT']) && (string)$query['RESULT'] === '0';
+        return isset($query['RESULTTEXT']) && (string)$query['RESULTTEXT'] === 'OK';
     }
 
     public function validateNotify(array $data): bool
     {
-        return isset($data['RESULT']) && (string)$data['RESULT'] === '0';
+        return isset($data['RESULTTEXT']) && (string)$data['RESULTTEXT'] === 'OK';
     }
 }
