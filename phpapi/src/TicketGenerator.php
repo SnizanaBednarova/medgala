@@ -92,11 +92,11 @@ HTML;
     private function renderPdf(string $html, string $file): void
     {
         // Increase time limit for PDF generation as it can be resource-intensive
-        set_time_limit(120);
+        set_time_limit(300);
 
         $options = new Options();
         $options->set('isRemoteEnabled', true);
-        $options->set('dpi', 150);
+        $options->set('dpi', 300);
         $dompdf = new Dompdf($options);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A6', 'landscape');
