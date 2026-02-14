@@ -60,17 +60,13 @@ class TicketGenerator
         if (!file_exists($bgPath)) {
             $bgPath = __DIR__ . '/../../public/img/tickets/' . $bgName;
         }
-        $bgData = '';
-        if (file_exists($bgPath)) {
-            $bgData = 'data:image/png;base64,' . base64_encode(file_get_contents($bgPath));
-        }
 
         $table = (string)($item['table'] ?? '');
         if (!$table && preg_match('/^([A-Z0-9]+)\s*\(/i', $label, $m)) {
             $table = $m[1];
         }
 
-			$cardStyle = $bgData ? "background-image: url('$bgData'); background-size: contain; background-repeat: no-repeat;" : "border:1px solid #ddd; background-color: #003366; color: white;";
+        $cardStyle = $bgPath && file_exists($bgPath) ? "background-image: url('$bgPath'); background-size: contain; background-repeat: no-repeat;" : "border:1px solid #ddd; background-color: #003366; color: white;";
 
         return <<<HTML
 <!DOCTYPE html>
@@ -95,9 +91,12 @@ HTML;
 
     private function renderPdf(string $html, string $file): void
     {
+        // Increase time limit for PDF generation as it can be resource-intensive
+        set_time_limit(120);
+
         $options = new Options();
         $options->set('isRemoteEnabled', true);
-				$options->set('dpi', 300);
+        $options->set('dpi', 150);
         $dompdf = new Dompdf($options);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A6', 'landscape');
