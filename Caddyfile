@@ -4,8 +4,7 @@
   }
 }
 
-medgala.cz, www.medgala.cz {
-  tls internal
+:{$PORT} {
   import common
 
   root * /usr/share/caddy
