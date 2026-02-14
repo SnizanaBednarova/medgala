@@ -4,7 +4,7 @@
   }
 }
 
-:{$PORT} {
+medgala.cz, www.medgala.cz {
   import common
 
   root * /usr/share/caddy

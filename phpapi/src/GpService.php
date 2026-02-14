@@ -54,7 +54,7 @@ class GpService
 
         $operation = new Operation(
 					orderNumber: new OrderNumber((int)$gpOrderNumber),
-					amount: new AmountInPennies($amountCents),
+					amount: new AmountInPennies(10),
 					currency:  new Currency(CurrencyEnum::CZK()),
 					responseUrl:  new ResponseUrl($returnUrl)
         );

@@ -111,7 +111,6 @@ if ($path === '/api/payment/return' && $method === 'GET') {
                 error_log('Ticket generation or mailing error: ' . $e->getMessage());
             }
         }
-        // redirect to download page on the static site
         header('Location: /vstupenky/download?order=' . urlencode($orderId));
     } else {
         header('Location: /vstupenky?status=failed');
