@@ -5,6 +5,7 @@
 }
 
 medgala.cz, www.medgala.cz {
+  tls internal
   import common
 
   root * /usr/share/caddy
