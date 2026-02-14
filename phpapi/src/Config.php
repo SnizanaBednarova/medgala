@@ -24,7 +24,7 @@ class Config
 				$this->gpPrivateKeyPassword = 'L0DSqTSFQG:HFX';
         $this->gpUrl = 'https://3dsecure.gpwebpay.com/pgw/order.do';
         $this->smtpHost = 'smtp.gmail.com';
-        $this->smtpPort =  587;
+        $this->smtpPort =  465;
         $this->smtpUser = 'ples.ostrava@ifmsa.cz';
         $this->smtpPass = 'vdpt zylc axgc ylkf';
         $this->mailFrom = 'ples.ostrava@ifmsa.cz';

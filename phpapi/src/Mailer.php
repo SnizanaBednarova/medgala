@@ -20,13 +20,16 @@ class Mailer
         try {
             // Server settings
             $mail->isSMTP();
-            $mail->Host       = $this->config->smtpHost;
+            $mail->Host       = gethostbyname($this->config->smtpHost);
             $mail->SMTPAuth   = true;
             $mail->Username   = $this->config->smtpUser;
             $mail->Password   = $this->config->smtpPass;
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port       = $this->config->smtpPort;
             $mail->CharSet    = 'UTF-8';
+					$mail->SMTPDebug = 2;
+					$mail->Debugoutput = 'error_log';
+					$mail->Timeout = 20;
 
             // Recipients
             $mail->setFrom($this->config->mailFrom, 'MedGala');
