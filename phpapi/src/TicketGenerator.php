@@ -57,7 +57,6 @@ class TicketGenerator
         }
 
 			  $bgData = __DIR__ . '/../public/img/tickets/' . $bgName;
-				echo $bgData;
 
         $table = (string)($item['table'] ?? '');
         if (!$table && preg_match('/^([A-Z0-9]+)\s*\(/i', $label, $m)) {
