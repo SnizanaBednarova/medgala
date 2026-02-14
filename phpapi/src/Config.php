@@ -23,10 +23,10 @@ class Config
 			  $this->gpPrivateKey = __DIR__ . '/../cert/gpwebpay-pvk.key';
 				$this->gpPrivateKeyPassword = 'L0DSqTSFQG:HFX';
         $this->gpUrl = 'https://3dsecure.gpwebpay.com/pgw/order.do';
-        $this->smtpHost = getenv('SMTP_HOST') ?: 'smtp.gmail.com';
-        $this->smtpPort = (int)(getenv('SMTP_PORT') ?: 587);
-        $this->smtpUser = getenv('SMTP_USER') ?: 'ples.ostrava@ifmsa.cz';
-        $this->smtpPass = getenv('SMTP_PASS') ?: '';
-        $this->mailFrom = getenv('MAIL_FROM') ?: 'ples.ostrava@ifmsa.cz';
+        $this->smtpHost = 'smtp.gmail.com';
+        $this->smtpPort =  587;
+        $this->smtpUser = 'ples.ostrava@ifmsa.cz';
+        $this->smtpPass = 'vdpt zylc axgc ylkf';
+        $this->mailFrom = 'ples.ostrava@ifmsa.cz';
     }
 }

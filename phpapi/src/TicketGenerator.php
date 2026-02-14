@@ -56,17 +56,15 @@ class TicketGenerator
             $bgName = 'silver.png';
         }
 
-        $bgPath = __DIR__ . '/../public/img/tickets/' . $bgName;
-        if (!file_exists($bgPath)) {
-            $bgPath = __DIR__ . '/../../public/img/tickets/' . $bgName;
-        }
+			  $bgData = __DIR__ . '/../public/img/tickets/' . $bgName;
+				echo $bgData;
 
         $table = (string)($item['table'] ?? '');
         if (!$table && preg_match('/^([A-Z0-9]+)\s*\(/i', $label, $m)) {
             $table = $m[1];
         }
 
-        $cardStyle = $bgPath && file_exists($bgPath) ? "background-image: url('$bgPath'); background-size: contain; background-repeat: no-repeat;" : "border:1px solid #ddd; background-color: #003366; color: white;";
+			$cardStyle = $bgData ? "background-image: url('$bgData'); background-size: contain; background-repeat: no-repeat;" : "border:1px solid #ddd; background-color: #003366; color: white;";
 
         return <<<HTML
 <!DOCTYPE html>
@@ -91,7 +89,6 @@ HTML;
 
     private function renderPdf(string $html, string $file): void
     {
-        // Increase time limit for PDF generation as it can be resource-intensive
         set_time_limit(300);
 
         $options = new Options();
