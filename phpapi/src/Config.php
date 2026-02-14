@@ -14,6 +14,7 @@ class Config
     public string $smtpUser;
     public string $smtpPass;
     public string $mailFrom;
+    public string $resendApiKey;
 
     public function __construct()
     {
@@ -23,10 +24,11 @@ class Config
 			  $this->gpPrivateKey = __DIR__ . '/../cert/gpwebpay-pvk.key';
 				$this->gpPrivateKeyPassword = 'L0DSqTSFQG:HFX';
         $this->gpUrl = 'https://3dsecure.gpwebpay.com/pgw/order.do';
-        $this->smtpHost = 'smtp.gmail.com';
-        $this->smtpPort =  465;
-        $this->smtpUser = 'ples.ostrava@ifmsa.cz';
-        $this->smtpPass = 'vdpt zylc axgc ylkf';
-        $this->mailFrom = 'ples.ostrava@ifmsa.cz';
+        $this->smtpHost = getenv('SMTP_HOST') ?: 'smtp.gmail.com';
+        $this->smtpPort = (int)(getenv('SMTP_PORT') ?: 465);
+        $this->smtpUser = getenv('SMTP_USER') ?: 'ples.ostrava@ifmsa.cz';
+        $this->smtpPass = getenv('SMTP_PASS') ?: 'vdpt zylc axgc ylkf';
+        $this->mailFrom = getenv('MAIL_FROM') ?: 'vstupenky@medgala.cz';
+        $this->resendApiKey = 're_AfupV9Pd_EEGgGuGHCjy7mxqVcbeXRg5P';
     }
 }
