@@ -56,7 +56,13 @@ class TicketGenerator
             $bgName = 'silver.png';
         }
 
-			  $bgData = __DIR__ . '/tickets/' . $bgName;
+        $bgPath = dirname(__DIR__) . '/public/img/tickets/' . $bgName;
+        $bgData = '';
+        if (file_exists($bgPath)) {
+            $type = pathinfo($bgPath, PATHINFO_EXTENSION);
+            $data = file_get_contents($bgPath);
+            $bgData = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        }
 
         $table = (string)($item['table'] ?? '');
         if (!$table && preg_match('/^([A-Z0-9]+)\s*\(/i', $label, $m)) {
