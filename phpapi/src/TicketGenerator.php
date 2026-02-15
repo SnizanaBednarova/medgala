@@ -86,9 +86,9 @@ class TicketGenerator
 body { margin: 0; padding: 0; font-family: DejaVu Sans, Arial, sans-serif; color: white; }
 .card { position: relative; width: 100%; height: 100%; $cardStyle }
 .card-content { position: relative; width: 100%; height: 100%; }
-.qr { position: absolute; bottom: 375px; right: 220px; width: 260px; height: 260px; background: white; padding: 5px; border-radius: 8px; }
-.table-box { position: absolute; bottom: 350px; left: 320px; width: 288px; height: 188px; text-align: center; line-height: 46px; font-size: 46px; font-weight: bold; color: #003366; }
-.seat-box { position: absolute; bottom: 350px; left: 810px; width: 288px; height: 188px; text-align: center; line-height: 46px; font-size: 46px; font-weight: bold; color: #003366; }
+.qr { position: absolute; bottom: 275px; right: 220px; width: 260px; height: 260px; background: white; padding: 5px; border-radius: 8px; }
+.table-box { position: absolute; bottom: 250px; left: 320px; width: 288px; height: 188px; text-align: center; line-height: 46px; font-size: 46px; font-weight: bold; color: #003366; }
+.seat-box { position: absolute; bottom: 250px; left: 810px; width: 288px; height: 188px; text-align: center; line-height: 46px; font-size: 46px; font-weight: bold; color: #003366; }
 </style></head><body>
   <div class="card">
     <div class="card-content">
