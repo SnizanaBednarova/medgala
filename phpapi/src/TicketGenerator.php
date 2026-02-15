@@ -57,6 +57,10 @@ class TicketGenerator
         }
 
         $bgPath = dirname(__DIR__) . '/public/img/tickets/' . $bgName;
+        if (!file_exists($bgPath)) {
+            // Try relative to project root if dirname(__DIR__) is not /var/www in some envs
+            $bgPath = __DIR__ . '/../public/img/tickets/' . $bgName;
+        }
         $bgData = '';
         if (file_exists($bgPath)) {
             $type = pathinfo($bgPath, PATHINFO_EXTENSION);
@@ -69,7 +73,7 @@ class TicketGenerator
             $table = $m[1];
         }
 
-			$cardStyle = $bgData ? "background-image: url('$bgData'); background-size: contain; background-repeat: no-repeat;" : "border:1px solid #ddd; background-color: #003366; color: white;";
+			$cardStyle = $bgData ? "background-image: url('$bgData'); background-size: cover; background-repeat: no-repeat; background-position: center;" : "border:1px solid #ddd; background-color: #003366; color: white;";
 
         return <<<HTML
 <!DOCTYPE html>
@@ -77,16 +81,19 @@ class TicketGenerator
 @page { margin: 0; }
 body { margin: 0; padding: 0; font-family: DejaVu Sans, Arial, sans-serif; color: white; }
 .card { position: relative; width: 100%; height: 100%; $cardStyle }
+.card-content { position: relative; width: 100%; height: 100%; }
 .qr { position: absolute; bottom: 475px; right: 220px; width: 260px; height: 260px; background: white; padding: 5px; border-radius: 8px; }
 .table-box { position: absolute; bottom: 450px; left: 320px; width: 288px; height: 188px; text-align: center; line-height: 46px; font-size: 46px; font-weight: bold; color: #003366; }
 .seat-box { position: absolute; bottom: 450px; left: 810px; width: 288px; height: 188px; text-align: center; line-height: 46px; font-size: 46px; font-weight: bold; color: #003366; }
 </style></head><body>
   <div class="card">
+    <div class="card-content">
 HTML . ($isEconomy ? 
     '' :
     '<div class="table-box">' . $table . '</div><div class="seat-box">' . $num . '</div>'
 ) . <<<HTML
     <img src="$qrCode" class="qr">
+    </div>
   </div>
 </body></html>
 HTML;
@@ -98,6 +105,7 @@ HTML;
 
         $options = new Options();
         $options->set('isRemoteEnabled', true);
+        $options->set('isHtml5ParserEnabled', true);
         $options->set('dpi', 300);
         $dompdf = new Dompdf($options);
         $dompdf->loadHtml($html);
