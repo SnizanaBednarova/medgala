@@ -56,21 +56,18 @@ class TicketGenerator
             $bgName = 'silver.png';
         }
 
-        $bgPath = __DIR__ . '/../public/img/tickets/' . $bgName;
-        if (!file_exists($bgPath)) {
-            // Try common fallback if deployed in a different structure
-            $bgPath = dirname(__DIR__) . '/public/img/tickets/' . $bgName;
-        }
-
-        if (!file_exists($bgPath)) {
-            error_log("TicketGenerator: Background image not found at $bgPath");
+        $bgPath = $this->resolveBackgroundPath($bgName);
+        if (!$bgPath) {
+            error_log("TicketGenerator: Background image not found for $bgName");
         }
 
         $bgData = '';
-        if (file_exists($bgPath)) {
+        if ($bgPath && file_exists($bgPath)) {
             $type = pathinfo($bgPath, PATHINFO_EXTENSION);
             $data = file_get_contents($bgPath);
-            $bgData = 'data:image/' . $type . ';base64,' . base64_encode($data);
+            if ($data !== false) {
+                $bgData = 'data:image/' . $type . ';base64,' . base64_encode($data);
+            }
         }
 
         $table = (string)($item['table'] ?? '');
@@ -134,5 +131,26 @@ HTML;
     public function getTicketPath(string $orderId, string $file): string
     {
         return $this->base . '/tickets/' . basename($orderId) . '/' . basename($file);
+    }
+
+    private function resolveBackgroundPath(string $bgName): ?string
+    {
+        $candidates = [];
+        $candidates[] = __DIR__ . '/../public/img/tickets/' . $bgName;
+        if (!empty($_SERVER['DOCUMENT_ROOT'])) {
+            $candidates[] = rtrim((string)$_SERVER['DOCUMENT_ROOT'], '/') . '/img/tickets/' . $bgName;
+        }
+        $cwd = getcwd();
+        if ($cwd) {
+            $candidates[] = rtrim($cwd, '/') . '/public/img/tickets/' . $bgName;
+            $candidates[] = rtrim($cwd, '/') . '/phpapi/public/img/tickets/' . $bgName;
+        }
+
+        foreach ($candidates as $path) {
+            if (is_file($path)) return $path;
+        }
+
+        error_log('TicketGenerator: Background search paths: ' . implode(', ', $candidates));
+        return null;
     }
 }
