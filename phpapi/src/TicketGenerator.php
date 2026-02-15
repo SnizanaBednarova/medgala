@@ -56,7 +56,7 @@ class TicketGenerator
             $bgName = 'silver.png';
         }
 
-			  $bgData = __DIR__ . '/../public/img/tickets/' . $bgName;
+			  $bgData = __DIR__ . '/tickets/' . $bgName;
 
         $table = (string)($item['table'] ?? '');
         if (!$table && preg_match('/^([A-Z0-9]+)\s*\(/i', $label, $m)) {
