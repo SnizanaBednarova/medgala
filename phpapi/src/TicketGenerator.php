@@ -56,11 +56,16 @@ class TicketGenerator
             $bgName = 'silver.png';
         }
 
-        $bgPath = dirname(__DIR__) . '/public/img/tickets/' . $bgName;
+        $bgPath = __DIR__ . '/../public/img/tickets/' . $bgName;
         if (!file_exists($bgPath)) {
-            // Try relative to project root if dirname(__DIR__) is not /var/www in some envs
-            $bgPath = __DIR__ . '/../public/img/tickets/' . $bgName;
+            // Try common fallback if deployed in a different structure
+            $bgPath = dirname(__DIR__) . '/public/img/tickets/' . $bgName;
         }
+
+        if (!file_exists($bgPath)) {
+            error_log("TicketGenerator: Background image not found at $bgPath");
+        }
+
         $bgData = '';
         if (file_exists($bgPath)) {
             $type = pathinfo($bgPath, PATHINFO_EXTENSION);
@@ -73,7 +78,7 @@ class TicketGenerator
             $table = $m[1];
         }
 
-			$cardStyle = $bgData ? "background-image: url('$bgData'); background-size: cover; background-repeat: no-repeat; background-position: center;" : "border:1px solid #ddd; background-color: #003366; color: white;";
+			$cardStyle = $bgData ? "background-image: url('$bgData'); background-size: contain; background-repeat: no-repeat; background-position: center;" : "border:1px solid #ddd; background-color: #003366; color: white;";
 
         return <<<HTML
 <!DOCTYPE html>
