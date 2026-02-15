@@ -57,10 +57,6 @@ class TicketGenerator
         }
 
         $bgPath = $this->resolveBackgroundPath($bgName);
-        if (!$bgPath) {
-            error_log("TicketGenerator: Background image not found for $bgName");
-        }
-
         $bgData = '';
         if ($bgPath && file_exists($bgPath)) {
             $type = pathinfo($bgPath, PATHINFO_EXTENSION);
@@ -68,6 +64,12 @@ class TicketGenerator
             if ($data !== false) {
                 $bgData = 'data:image/' . $type . ';base64,' . base64_encode($data);
             }
+        }
+        if (!$bgData) {
+            $bgData = $this->loadBackgroundDataFromUrl($bgName);
+        }
+        if (!$bgData) {
+            error_log("TicketGenerator: Background image not found for $bgName");
         }
 
         $table = (string)($item['table'] ?? '');
@@ -136,6 +138,10 @@ HTML;
     private function resolveBackgroundPath(string $bgName): ?string
     {
         $candidates = [];
+        $envDir = getenv('TICKET_BG_DIR');
+        if ($envDir) {
+            $candidates[] = rtrim($envDir, '/') . '/' . $bgName;
+        }
         $candidates[] = __DIR__ . '/../public/img/tickets/' . $bgName;
         if (!empty($_SERVER['DOCUMENT_ROOT'])) {
             $candidates[] = rtrim((string)$_SERVER['DOCUMENT_ROOT'], '/') . '/img/tickets/' . $bgName;
@@ -152,5 +158,29 @@ HTML;
 
         error_log('TicketGenerator: Background search paths: ' . implode(', ', $candidates));
         return null;
+    }
+
+    private function loadBackgroundDataFromUrl(string $bgName): string
+    {
+        $baseUrl = getenv('TICKET_BG_URL_BASE') ?: '';
+        if (!$baseUrl) {
+            $baseUrl = getenv('APP_URL') ?: '';
+        }
+        if (!$baseUrl) return '';
+
+        $baseUrl = rtrim($baseUrl, '/');
+        $url = $baseUrl . '/img/tickets/' . $bgName;
+        $ctx = stream_context_create([
+            'http' => ['timeout' => 5],
+            'https' => ['timeout' => 5],
+        ]);
+        $data = @file_get_contents($url, false, $ctx);
+        if ($data === false) {
+            error_log("TicketGenerator: Remote background fetch failed: $url");
+            return '';
+        }
+
+        $type = pathinfo($bgName, PATHINFO_EXTENSION) ?: 'png';
+        return 'data:image/' . $type . ';base64,' . base64_encode($data);
     }
 }
